@@ -1,14 +1,14 @@
 # In this folder, I create a list of wireless networks computational functions.
 # These functions are used to facilitate the future computation and emphasize 
 # my understanding of the course material.
-
-# --------------------------Lecture 3 page 18-25------------------------------
-
 import numpy as np
 import matplotlib.pyplot as plt
 
 import scipy
 from scipy import signal
+# --------------------------Lecture 3 page 18-25------------------------------
+
+
 
 impulse = signal.unit_impulse(10, 'mid')
 shifted_impulse = signal.unit_impulse(7, 2)

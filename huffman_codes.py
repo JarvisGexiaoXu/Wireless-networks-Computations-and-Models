@@ -1,10 +1,10 @@
 # In this folder, I create a list of wireless networks computational functions.
 # These functions are used to facilitate the future computation and emphasize 
 # my understanding of the course material.
-
+import sys
 # --------------------------Lecture 2 page 9-10------------------------------
 # Huffman Codes
-import sys
+
 # Creating tree nodes
 class Node(object):
     def __init__(self, left=None, right=None):
@@ -91,5 +91,3 @@ decoded_msg = decode_str_Huffman(head, encoded_msg)
 print("The decoded message:")
 print(decoded_msg)
 print("Compression ratio", size_original_msg/size_encoded_msg)
-
-

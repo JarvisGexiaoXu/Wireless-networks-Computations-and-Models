@@ -1,7 +1,8 @@
 # In this folder, I create a list of wireless networks computational functions.
 # These functions are used to facilitate the future computation and emphasize 
 # my understanding of the course material.
-
+import sys
+import wireless_lib as wl
 # --------------------------Lecture 3 page 14-16------------------------------
 # Run Length Encodes (RLE)
 
@@ -11,8 +12,6 @@
 # CON   - depends on information content.
 #       - lack of error propagation, can use external techniques, but high complexity.
 
-import sys
-import wireless_lib as wl
 # String/text compression
 b = wl.binary_generator(10000, 0.8)
 print('Original Msg')
