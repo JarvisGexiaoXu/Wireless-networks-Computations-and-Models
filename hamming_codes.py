@@ -57,7 +57,7 @@ def hamming_code_simulation():
     h = np.hstack((p_transpose, i3_matrix))
     # print('H: ')
     # print(h)
-    # Codeword: b = x * G Assume x = 1, b = G
+    # Codeword: b = x * G
     codeword = np.dot(x, g) % 2 # This is what actually tranmitted
     codeword = wl.number_string_to_matrix(wl.number_matrix_to_string(codeword))
     temp = wl.number_matrix_to_string(codeword)
