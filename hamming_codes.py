@@ -20,7 +20,7 @@ def hamming_code_7_4(b): # b has length equal to 4 (b type string)
 def weight(b):
     counter = 0
     for c in b: 
-        if c == '1': counter += 1
+        if c == '1' or c == 1: counter += 1 # It can handle np.array, list, string, char list
     return counter
 
 
@@ -42,7 +42,7 @@ def code_generator(b):
     return b
 
 def hamming_code_simulation():
-    x = wl.binary_generator(4, 0.5) # This is the original msg
+    x = wl.binary_generator(4, 0.5) # This is the original code
     x = (wl.number_string_to_matrix(x))
     # print('Transmitted vector:', x)
     # Compute code generator matrix
@@ -57,8 +57,8 @@ def hamming_code_simulation():
     h = np.hstack((p_transpose, i3_matrix))
     # print('H: ')
     # print(h)
-    # Codeword: b = x * G
-    codeword = np.dot(x, g) % 2 # This is what actually tranmitted
+    # Codeword: b = x * G 
+    codeword = np.dot(x, g) % 2 # This is what actually transmitted
     codeword = wl.number_string_to_matrix(wl.number_matrix_to_string(codeword))
     temp = wl.number_matrix_to_string(codeword)
     temp = wl.mimic_transmission_error(temp, 0.1) 
@@ -68,18 +68,20 @@ def hamming_code_simulation():
     # Syndrome: s = H * b_transpose
     s = np.dot(h, codeword.transpose()) % 2
     trans_s = np.dot(h, trans_codeword.transpose()) % 2
-    # print('Syndrome of the original code:', s)
-    # print('Syndrome of the transmitted code:', trans_s)
+    print('Syndrome of the original code:', s)
+    print('Syndrome of the transmitted code:', trans_s)
     if(np.array_equal(codeword, trans_codeword)): return 1 # No error
     elif(np.array_equal(trans_s, s)):return 2 # Undetected error
     else: return 3 # Detected error
 # Syndrome computation
 # s = H r = H (b + error) = H b + H error = 0 + H error = H error
 # s = H error
+
+# Test code
 no_e = 0
 undetected_e = 0
 detected_e = 0
-num_runs = 10000
+num_runs = 1
 for i in range(num_runs):
     if hamming_code_simulation() == 1: no_e += 1
     elif hamming_code_simulation() == 2: undetected_e += 1
@@ -87,10 +89,25 @@ for i in range(num_runs):
 print('No error:', no_e/num_runs)
 print('Detected error', detected_e/num_runs)
 print('Undetected error', undetected_e/num_runs)
+
+
 '''
 Now we have the syndrome, let's try to understand how it works,
 if syndrome == 0:
     it could mean two things:
         1. no error,
         2. error vector corresponds to any valid codeword, (e = b) then it is undetectable
+An error vector with dmin-1 or less can always be detected.
+dmin = min(weight(b)) in (7,4) Hamming dmin = 3
 '''
+
+# Error Correction (page 27)
+def error_vector(length):
+    return wl.number_string_to_matrix(wl.binary_generator(length=length, prob=0.5))
+
+
+e = error_vector(7)
+w = weight(e)
+print(e)
+print(w)
+

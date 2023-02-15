@@ -28,7 +28,7 @@ def byteps_to_bps(byteps):
 
 # Binary Generator
 # Generates a binary number in string
-def binary_generator(length, prob): 
+def binary_generator(length, prob = 0.5): 
     if prob < 0 or prob > 1: 
         print("invalid probablity")
         return None
@@ -77,3 +77,22 @@ def number_matrix_to_string(b):
     temp = ''
     for n in b: temp += str(int(n))
     return temp
+
+# Sum all the numbers in the list then mod 2
+def sum_mod(b):
+    return sum(b) % 2
+
+# Shift registers to the left
+def shift_to_left(b_lst, b):
+    temp = []
+    for i in range(len(b_lst)):
+        if i != 0: temp.append(b_lst[i])
+    temp.append(b)
+    return np.asarray(temp)
+
+# Shift registers to the right
+def shift_to_right(b_lst, b):
+    temp = [b]
+    for i in range(len(b_lst)):
+        if i != len(b_lst)-1: temp.append(b_lst[i])
+    return np.asarray(temp)
