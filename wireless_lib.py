@@ -5,6 +5,7 @@ import random as r
 import sys
 import math as m
 import numpy as np
+import matplotlib.pyplot as plt
 
 # Converters
 def bps_to_kbps(bps):
@@ -96,3 +97,69 @@ def shift_to_right(b_lst, b):
     for i in range(len(b_lst)):
         if i != len(b_lst)-1: temp.append(b_lst[i])
     return np.asarray(temp)
+
+# Hamming Distance between two vectors
+def hamming_distance(v1, v2):
+    if len(v1) == len(v2):
+        d = 0
+        for i in range(len(v1)):
+            if v1[i] != v2[i]: d += 1
+        return d
+    else: 
+        print("inequal length")
+        return False
+
+# Mean Square Error (MSE) between two vectors
+def MSE(v1, v2):
+    if len(v1) == len(v2):
+        d = 0
+        for i in range(len(v1)):
+            d = d + (v1[i] - v2[i])**2
+        return d/len(v1)
+    else: 
+        print("inequal length")
+        return False
+
+# Waves
+# Fs, sample rate 100Hz
+# size, # of samples 1000
+# t = np.arange(0, size)/Fs, signal length
+def sine_wave(t):
+    x1 = np.sin(2 * np.pi * 1 * t)
+    # plt.plot(t,x1)
+    # plt.show()
+    return x1
+
+def square_wave(Fs, t, size):
+    x2 = np.array([1,0])
+    x2 = np.repeat(x2, Fs//2)
+    x2 = np.tile(x2, size//(Fs//1))
+    # plt.plot(t,x2)
+    # plt.show()
+    return x2
+
+def triangle_wave(Fs, t, size):
+    x2 = square_wave(Fs, t, size)
+    x2 = x2 - np.mean(x2)
+    x3 = np.zeros(size)
+    sum = 0
+    for i in range(size):
+        sum += x2[i]
+        x3[i] = sum
+    x3 /= np.max(x2)
+    # plt.plot(t,x3)
+    # plt.show()
+    return x3
+
+def white_gaussian_noise(t, size):
+    n1 = np.random.randn(size) * 2
+    # plt.plot(t,n1)
+    # plt.show()    
+    return n1
+
+def uniform_white_noise(t, size):
+    n2 = np.random.rand(size)
+    n2 -= np.mean(n2)
+    # plt.plot(t,n2)
+    # plt.show()
+    return n2
