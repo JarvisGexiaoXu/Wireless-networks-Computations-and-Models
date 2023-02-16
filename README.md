@@ -1,7 +1,6 @@
-## Wireless-networks-Computations-and-Models
+# Wireless-networks-Computations-and-Models
 
-# List of Implemented Models,
-First Header  |
+List of Implemented Models  |
 ------------- |
 Simple Parity Check | 
 Run Length Encodes and Decodes  | 
