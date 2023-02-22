@@ -7,5 +7,6 @@ Run Length Encodes and Decodes  |
 Huffman codes  | 
 Hamming codes | 
 Convolutional codes & Viterbi  | 
+Spectrals (Waves) & Line Codes  | 
 
 
