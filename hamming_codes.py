@@ -23,7 +23,6 @@ def weight(b):
         if c == '1' or c == 1: counter += 1 # It can handle np.array, list, string, char list
     return counter
 
-
 # hamming_encoded_b = hamming_code_7_4(b)
 # print(hamming_encoded_b)
 # temp = wl.number_string_to_matrix(hamming_encoded_b)

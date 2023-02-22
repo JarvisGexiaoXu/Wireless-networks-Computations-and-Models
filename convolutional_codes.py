@@ -69,12 +69,15 @@ p1 = np.asarray([1,1,1,1])
 p2 = np.asarray([1,0,1,0])
 reg = np.asarray([0,0,0,None])
 num_err = 0
+num_act_err = 0
 for i in range(1000):
-    msg1 = wl.number_string_to_matrix(wl.binary_generator(100,0.5))
+    msg1 = wl.number_string_to_matrix(wl.binary_generator(200,0.5))
     # print(msg1)
     v1 = complex_conv_encode(msg1, reg, p1, p2)
-
-    decoded_msg = viterbi_decode(v1, p1, p2, wl.MSE, reg)
+    v2 = wl.mimic_transmission_error(v1, 0.005)
+    if wl.hamming_distance(v1, v2) > 0: num_act_err += 1 
+    decoded_msg = viterbi_decode(v2, p1, p2, wl.MSE, reg)
     # print(decoded_msg)
     if wl.hamming_distance(msg1, decoded_msg) > 0: num_err += 1 
-print(num_err)
+print("actual number of errors occured:", num_act_err)
+print("number of error remain after decoding:", num_err)

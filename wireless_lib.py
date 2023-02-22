@@ -56,11 +56,11 @@ def mimic_transmission_error(b, error_prob):  # error_prob < 0.5 makes the chann
     for i in range(len(b)):
         if r.random() < error_prob:
             # print(i) # Check which bits are errors
-            if b[i] == '1': transed_b += '0'
+            if b[i] == '1' or b[i] == 1: transed_b += '0'
             else: transed_b += '1'
         else:
-            transed_b += b[i]
-    return transed_b
+            transed_b += str(b[i])
+    return number_string_to_matrix(transed_b) 
 
 # Computations
 def permutation(n, k): # 0 <= k <= n 
@@ -163,3 +163,80 @@ def uniform_white_noise(t, size):
     # plt.plot(t,n2)
     # plt.show()
     return n2
+
+# Line codes
+def unipolar_NRZ(data):
+    encoded = []
+    for bit in data:
+        if bit == 0:
+            encoded += [0, 0]
+        else:
+            encoded += [1, 1]
+    return encoded
+
+def polar_NRZ(data):
+    encoded = []
+    for bit in data:
+        if bit == 0:
+            encoded += [-1, -1]
+        else:
+            encoded += [1, 1]
+    return encoded
+
+def NRZ_inverted(data):
+    code = [-1,-1]
+    encoded = []
+    for bit in data:
+        if bit == 0:
+            encoded += [code[0], code[1]]
+        else:
+            for i in range(len(code)): code[i] = code[i] * -1
+            encoded += [code[0], code[1]]
+    return encoded
+
+def bipolar(data):
+    code = [-1,-1]
+    encoded = []
+    for bit in data:
+        if bit == 0:
+            encoded += [0, 0]
+        else:
+            for i in range(len(code)): code[i] = code[i] * -1
+            encoded += [code[0], code[1]]
+    return encoded
+
+def manchester(data):
+    encoded = []
+    for bit in data:
+        if bit == 0:
+            encoded += [-1, 1]
+        else:
+            encoded += [1, -1]
+    return encoded
+
+def diff_machester(data):
+    code = [-1,1]
+    encoded = []
+    for bit in data:
+        if bit == 0:
+            encoded += [code[0], code[1]]
+        else:
+            for i in range(len(code)): code[i] = code[i] * -1
+            encoded += [code[0], code[1]]
+    return encoded
+    
+# Use case example: wl.line_code_visualize([1,0,1,0,1,1,1,0,0], wl.bipolar, name='bipolar')
+def line_code_visualize(data, function, name):
+    data = data # binary data to encode
+    encoded_data = function(data) # apply Manchester encoding
+    encoded_data.append(encoded_data[-1])
+    # plot the encoded data as a pulse train
+    print(encoded_data)
+    plt.step(range(len(encoded_data)), encoded_data, where='post')
+    for i in range(len(encoded_data)):
+        plt.axvline(x=i, ymin=-5, ymax = 5, linestyle= 'dotted', linewidth = 1)
+    plt.ylim(-5, 5)
+    plt.xlabel('Bit Time')
+    plt.ylabel('Voltage')
+    plt.title(name)
+    plt.show()
